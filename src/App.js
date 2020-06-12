@@ -1,14 +1,23 @@
 import React, {useEffect, useState} from "react";
 import "./App.css";
 import axios from 'axios'
-import {BASE_URL, API_KEY} from './Constants/index'
-import Header from './Components/Header'
-import Body from './Components/Body'
-import Footer from './Components/Footer'
+import {BASE_URL, API_KEY} from './Constants/index';
+import Body from './Components/Body';
+import styled from 'styled-components';
+
+const WrapperDiv = styled.div`
+  background-color: #191970;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  height: 100%;
+  margin: 0 5;
+  padding:5%;
+`;
 
 function App() {
 
-  const [apodData, setApodData] = useState([])
+  const [apodData, setApodData] = useState({})
 
   useEffect(() => {
     console.log('🥇 ONLY AFTER FIRST RENDER')
@@ -17,6 +26,10 @@ function App() {
       .then(res => {
        console.log('AW YEAH', res.data)
        setApodData(res.data)
+        // .then(res =>{ //
+        //   console.log('yes', res.data) //
+        //   axios.get( ${apodData.hdurl} )<-- example of using axios call inside to grab another endpoint from a URL inside the data
+        // }) //
       })
       .catch(error => {
       debugger
@@ -25,18 +38,9 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header>
-        <h1 className='title'>{apodData.title}</h1>
-        <h2 className='date'>{apodData.date}</h2>
-      </header>
-      <img className='img-section' src={apodData.url} alt="redundant word for pic goes here"></img>
-      <section className='explanation'>{apodData.explanation}</section>
-      <p>
-        <span role="img" aria-label='go!'>🚀</span>!
-      </p>
-      <footer className='copyright'>{apodData.copyright}</footer>
-    </div>
+    <WrapperDiv className="App">
+      <Body data={apodData} />
+    </WrapperDiv>
   );
 }
 
